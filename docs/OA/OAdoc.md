@@ -66,7 +66,13 @@ The only difference with these is that they only provide a way to add 1 structur
 In the src/apps/viewer there is the implementation of the feature heavy viewer specified at the beginning of this document.
 It seems that they use React to integrate everything into a 'app' div in html.
 If it is possible to display a html div into the Gemini Shiny application then this would be the most suitable way from my research.
-
-
+#### Mol* viewer
+![alt text](./Images/Mol_viewer.png.jpg)
+#### Basic wrapper
+![alt text](./Images/basic_wrapper.png.jpg)
+#### Lighting
+![alt text](./Images/lighting.png.jpg)
+#### Proteopedia wrapper
+![alt text](./Images/proteopedia_wrapper.png.jpg)
 
 > Author: Simon Marien
