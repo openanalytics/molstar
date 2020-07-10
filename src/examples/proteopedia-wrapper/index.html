@@ -75,12 +75,15 @@
 
             function $(id) { return document.getElementById(id); }
 
-            var pdbId = '1cbs', assemblyId= 'preferred', isBinary = true;
-            var url = 'https://www.ebi.ac.uk/pdbe/entry-files/download/' + pdbId + '.bcif'
-            var format = 'cif';
+            //var pdbId = '1cbs', assemblyId= 'preferred', isBinary = true;
+            //var url = 'https://www.ebi.ac.uk/pdbe/entry-files/download/' + pdbId + '.bcif'
+            var pdbId = '100D', assemblyId= 'preferred', isBinary = false;
+            var url = 'https://geministorageapp.blob.core.windows.net/pdb-storage/' + pdbId + '.pdb?sp=r&st=2020-07-10T11:00:44Z&se=2020-07-10T19:00:44Z&spr=https&sv=2019-10-10&sr=b&sig=p%2BixG1ipukzTBwJkbDDGub3%2FYWTAjJIO7cr%2FOrFAVrc%3D'
+            //var url
+            var format = 'pdb';
 
-            $('url').value = url;
-            $('url').onchange = function (e) { url = e.target.value; }
+            $('url').value = pdbId;
+            $('url').onchange = function (e) { pdbId = e.target.value; }
             $('assemblyId').value = assemblyId;
             $('assemblyId').onchange = function (e) { assemblyId = e.target.value; }
             $('format').value = format;
