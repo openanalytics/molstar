@@ -58,6 +58,15 @@ When the previous method doesn't work, there is maybe a Plan B to be tried.
 There is a 'open files' option in the viewer where you could input a supported file from your local disk.
 Potentionally I could write a script where the appropriate file is downloaded from Azure and then with this viewer option opened in the 3D viewer.
 
+### GUI
+There are different GUI examples in the src/examples folder. 
+When building the GUI this could help a lot. 
+At first sight, the proteopedia wrapper seems the moest suitable for our case.
+The only difference with these is that they only provide a way to add 1 structure and not multiple.
+In the src/apps/viewer there is the implementation of the feature heavy viewer specified at the beginning of this document.
+It seems that they use React to integrate everything into a 'app' div in html.
+If it is possible to display a html div into the Gemini Shiny application then this would be the most suitable way from my research.
+
 
 
 > Author: Simon Marien
