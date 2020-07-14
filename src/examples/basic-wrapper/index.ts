@@ -50,7 +50,7 @@ class BasicWrapper {
     }
 
     async load({ url, format = 'mmcif', isBinary = false, assemblyId = '' }: LoadParams) {
-        await this.plugin.clear();
+        // await this.plugin.clear();
 
         const data = await this.plugin.builders.data.download({ url: Asset.Url(url), isBinary }, { state: { isGhost: true } });
         const trajectory = await this.plugin.builders.structure.parseTrajectory(data, format);
