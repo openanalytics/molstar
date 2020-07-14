@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-        <title>Mol* Plugin Wrapper</title>
+        <title>Gemini</title>
         <style>
             * {
                 margin: 0;
@@ -46,28 +46,28 @@
     </head>
     <body>
         <div id='controls'>
-            <h3>Source</h3>
             <input type='text' id='url' placeholder='url' />
-            <input type='text' id='assemblyId' placeholder='assembly id' />
+            <!--<input type='text' id='assemblyId' placeholder='assembly id' />
             <select id='format'>
                 <option value='mmcif' selected>mmCIF</option>
                 <option value='pdb'>PDB</option>
-            </select>
+            </select>-->`
         </div>
         <div id="app"></div>
         <script>
             function $(id) { return document.getElementById(id); }
 
-            var pdbId = '1grm', assemblyId= '1';
-            var url = 'https://www.ebi.ac.uk/pdbe/static/entry/' + pdbId + '_updated.cif';
-            var format = 'mmcif';
+            var pdbId = '105D', assemblyId= '1';
+            //var url = 'https://www.ebi.ac.uk/pdbe/static/entry/' + pdbId + '_updated.cif';
+            var url = 'https://geministorageapp.blob.core.windows.net/pdb-storage/' + pdbId + '.pdb?sp=r&st=2020-07-13T08:50:46Z&se=2020-07-31T16:50:46Z&spr=https&sv=2019-10-10&sr=b&sig=s1J0qd95V09GBUqVCQdu2mNz5Z6vr/kWlRGE7TJO6TU='
+            var format = 'pdb';
 
-            $('url').value = url;
-            $('url').onchange = function (e) { url = e.target.value; }
-            $('assemblyId').value = assemblyId;
+            $('url').value = pdbId;
+            $('url').onchange = function (e) { pdbId = e.target.value; }
+            /*$('assemblyId').value = assemblyId;
             $('assemblyId').onchange = function (e) { assemblyId = e.target.value; }
             $('format').value = format;
-            $('format').onchange = function (e) { format = e.target.value; }
+            $('format').onchange = function (e) { format = e.target.value; }*/
 
             BasicMolStarWrapper.init('app' /** or document.getElementById('app') */);
             BasicMolStarWrapper.setBackground(0xffffff);
@@ -79,7 +79,7 @@
 
             addHeader('Camera');
             addControl('Toggle Spin', () => BasicMolStarWrapper.toggleSpin());
-
+            /*
             addSeparator();
 
             addHeader('Animation');
@@ -111,7 +111,7 @@
 
             addControl('Show Toasts', () => BasicMolStarWrapper.tests.showToasts());
             addControl('Hide Toasts', () => BasicMolStarWrapper.tests.hideToasts());
-
+            */
             ////////////////////////////////////////////////////////
 
             function addControl(label, action) {
