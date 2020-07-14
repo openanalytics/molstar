@@ -8,9 +8,12 @@ shinyUI(
     fluidPage(
       titlePanel("Molstar shiny application example!"),
       mainPanel(
-      includeScript("proteopedia-wrapper/index.js"),
-      includeCSS("proteopedia-wrapper/molstar.css"),
-      includeHTML("proteopedia-wrapper/index.html")
+      #includeScript("proteopedia-wrapper/index.js"),
+      #includeCSS("proteopedia-wrapper/molstar.css"),
+      #includeHTML("proteopedia-wrapper/index.html")
+      includeScript("viewer/molstar.js"),
+      includeCSS("viewer/molstar.css"),
+      includeHTML("viewer/index.html")
       )
 
     )
