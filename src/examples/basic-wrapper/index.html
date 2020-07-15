@@ -55,8 +55,7 @@
         </div>
         <div id="app"></div>
         <script>
-            function $(id) { return document.getElementById(id); }
-
+            function $(id) { return document.getElementById(id);}
             var pdbId = '105D', assemblyId= '1';
             var url = 'https://www.ebi.ac.uk/pdbe/static/entry/' + pdbId + '_updated.cif';
             //var url = 'https://geministorageapp.blob.core.windows.net/pdb-storage/' + pdbId + '.pdb?sp=r&st=2020-07-13T08:50:46Z&se=2020-07-31T16:50:46Z&spr=https&sv=2019-10-10&sr=b&sig=s1J0qd95V09GBUqVCQdu2mNz5Z6vr/kWlRGE7TJO6TU='
@@ -73,6 +72,8 @@
 
             BasicMolStarWrapper.init('app' /** or document.getElementById('app') */);
             BasicMolStarWrapper.setBackground(0xffffff);
+
+            function clear () {BasicMolStarWrapper.removeObjects()}
 
             addControl('Load Asym Unit', () => BasicMolStarWrapper.load({ url: url, format: format }));
             addControl('Load Assembly', () => BasicMolStarWrapper.load({ url: url, format: format, assemblyId: assemblyId }));
