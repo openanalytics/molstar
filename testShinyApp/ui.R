@@ -11,11 +11,9 @@ shinyUI(
   fluidPage(
     useShinyjs(),
 
-    titlePanel("Molstar shiny application example!"),
+    titlePanel("Molstar shiny application"),
     actionButton("button", "Click me"),
-    textInput("text", "Text"),
-    selectInput("col", "Colour:",
-                c("white", "yellow", "red", "blue", "purple")),
+    textInput("url_test", "url_test",value = "https://geministorageapp.blob.core.windows.net/pdb-storage/110L.pdb?sp=r&st=2020-07-13T11:23:24Z&se=2020-07-30T19:23:24Z&spr=https&sv=2019-10-10&sr=b&sig=pVY5Bn2ZT7M0yo0UhhH6Jtakwmk8CaaeiOVcl2cE2Ag="),
     mainPanel(
       includeScript("basic-wrapper/index.js"),
       includeCSS("basic-wrapper/molstar.css"),
