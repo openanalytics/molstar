@@ -57,7 +57,7 @@
 <div id="app"></div>
 <script>
     //Function to easier html access
-    function $(id) {
+    function doc(id) {
         return document.getElementById(id);
     }
 
@@ -68,16 +68,16 @@
     var format = 'mmCIF';
 
     //Temporary fillers
-    $('url').value = url;
-    $('url').onchange = function (e) {
+    doc('url').value = url;
+    doc('url').onchange = function (e) {
         url = e.target.value;
     };
     //$('url').value = pdbId;
     //$('url').onchange = function (e) { pdbId = e.target.value; }
     /*$('assemblyId').value = assemblyId;
     $('assemblyId').onchange = function (e) { assemblyId = e.target.value; }*/
-    $('format').value = format;
-    $('format').onchange = function (e) {
+    doc('format').value = format;
+    doc('format').onchange = function (e) {
         format = e.target.value;
     };
 
@@ -107,18 +107,18 @@
         var btn = document.createElement('button');
         btn.onclick = action;
         btn.innerText = label;
-        $('controls').appendChild(btn);
+        doc('controls').appendChild(btn);
     }
 
     function addSeparator() {
         var hr = document.createElement('hr');
-        $('controls').appendChild(hr);
+        doc('controls').appendChild(hr);
     }
 
     function addHeader(header) {
         var h = document.createElement('h3');
         h.innerText = header;
-        $('controls').appendChild(h);
+        doc('controls').appendChild(h);
     }
 </script>
 </body>
