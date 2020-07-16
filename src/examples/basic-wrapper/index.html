@@ -86,7 +86,11 @@
     BasicMolStarWrapper.setBackground(0xffffff);
 
     //Load element by url in viewer
-    BasicMolStarWrapper.load({url: document.getElementById('url_test').value, format: 'pdb'});
+    function load_comparison(){
+        BasicMolStarWrapper.load({url: document.getElementById('url_1').value, format: 'pdb'});
+        BasicMolStarWrapper.load({url: document.getElementById('url_2').value, format: 'pdb'});
+    }
+    load_comparison()
 
     //Control menu
     addControl('Load Asym Unit', () => BasicMolStarWrapper.load({url: url, format: format}));
@@ -99,8 +103,9 @@
 
     addSeparator();
 
-    addHeader('Varia');
+    addHeader('Miscellaneous');
     addControl('Clear Viewer', () => BasicMolStarWrapper.removeObjects());
+    addControl('Update comparison',() => load_comparison());
 
     //Functions to make html elements
     function addControl(label, action) {
