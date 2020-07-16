@@ -17,7 +17,7 @@ shinyUI(
     mainPanel(
       includeScript("basic-wrapper/index.js"),
       includeCSS("basic-wrapper/molstar.css"),
-      includeHTML("basic-wrapper/index.html"),
+      includeHTML("basic-wrapper/index.html")
       # extendShinyjs(text = 'basic-wrapper/index.html'),
       # includeScript("viewer/molstar.js"),
       # includeCSS("viewer/molstar.css"),

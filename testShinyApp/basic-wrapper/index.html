@@ -74,7 +74,7 @@
 
             BasicMolStarWrapper.init('app' /** or document.getElementById('app') */);
             BasicMolStarWrapper.setBackground(0xffffff);
-            BasicMolStarWrapper.load({url:document.getElementById('url_test').value,format:'pdb'})
+            document.getElementById('url_test').addEventListener("change",BasicMolStarWrapper.load({url:document.getElementById('url_test').value,format:'pdb'}))
             function clear () {BasicMolStarWrapper.removeObjects()}
 
             addControl('Load Asym Unit', () => BasicMolStarWrapper.load({ url: url, format: format }));
