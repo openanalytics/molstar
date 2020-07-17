@@ -13,18 +13,17 @@
 
         #app {
             position: absolute;
-            left: 160px;
-            top: 100px;
-            width: 600px;
-            height: 600px;
+            left: 180px;
+            width: 50vw;
+            height: 30vw;
             border: 1px solid #ccc;
         }
 
         #controls {
             position: absolute;
-            width: 130px;
+            width: 150px;
             top: 10px;
-            left: 10px;
+            left: 0px;
         }
 
         #controls > button {
@@ -40,6 +39,14 @@
         #controls > input, #controls > select {
             width: 100%;
             display: block;
+        }
+
+        input,select {
+            display: inline-block;
+            max-width: 100%;
+            margin-bottom: 5px;
+            font-weight: 700;
+            border: 1px solid #ccc;
         }
     </style>
     <link rel="stylesheet" type="text/css" href="molstar.css"/>
@@ -90,6 +97,24 @@
         BasicMolStarWrapper.load({url: document.getElementById('url_1').value, format: 'pdb'});
         BasicMolStarWrapper.load({url: document.getElementById('url_2').value, format: 'pdb'});
     }
+    BasicMolStarWrapper.plugin.state.data.expand
+    function reload_canvas(){
+        var container = document.querySelector(".msp-viewport-host3D");
+        var content = container.innerHTML;
+        container.innerHTML= content;
+
+        //this line is to watch the result in console , you can remove it later
+        console.log("Refreshed");
+    }
+
+    function resize_canvas(){
+        var container = document.querySelector(".msp-viewport-host3d");
+        container.style.width = "51vw"
+        container.style.width = "31vw"
+    }
+
+    //setTimeout(resize_canvas,4000)
+
     load_comparison()
 
     //Control menu
@@ -105,13 +130,14 @@
 
     addHeader('Miscellaneous');
     addControl('Clear Viewer', () => BasicMolStarWrapper.removeObjects());
-    addControl('Update comparison',() => load_comparison());
+    addControl('Update comparison', () => load_comparison());
 
     //Functions to make html elements
     function addControl(label, action) {
         var btn = document.createElement('button');
         btn.onclick = action;
         btn.innerText = label;
+        btn.className += "form-control"
         doc('controls').appendChild(btn);
     }
 
@@ -121,8 +147,9 @@
     }
 
     function addHeader(header) {
-        var h = document.createElement('h3');
+        var h = document.createElement('label');
         h.innerText = header;
+        h.className += "label_view"
         doc('controls').appendChild(h);
     }
 </script>
