@@ -72,6 +72,19 @@ class BasicWrapper {
         });
     }
 
+
+    async getAzureUrl(name: string, format: string) {
+        const xApiKey = 'x-api-key XZdSXg9T8mTmXMjWyJmw9L5KnT88DhN7';
+        const frontUrl = 'http://13.69.254.145:5000/api/v1/mock/get-protein_url';
+        const sendURL = frontUrl + '?protein_type=' + format + '&protein_name=' + name + '.' + format;
+        let xmlHttpRequest = new XMLHttpRequest();
+        xmlHttpRequest.open('GET', sendURL, true);
+        xmlHttpRequest.setRequestHeader('Authorization', xApiKey);
+        xmlHttpRequest.send(null);
+        console.log(xmlHttpRequest.responseText)
+        return xmlHttpRequest.responseText;
+    }
+
     setBackground(color: number) {
         PluginCommands.Canvas3D.SetSettings(this.plugin, {
             settings: props => {
