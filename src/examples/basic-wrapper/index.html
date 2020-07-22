@@ -41,7 +41,7 @@
             display: block;
         }
 
-        input, select {
+        input,select {
             display: inline-block;
             max-width: 100%;
             margin-bottom: 5px;
@@ -93,31 +93,26 @@
     BasicMolStarWrapper.setBackground(0xffffff);
 
     //Load element by url in viewer
-    function load_comparison() {
+    function load_comparison(){
         BasicMolStarWrapper.load({url: document.getElementById('url_1').value, format: 'pdb'});
         BasicMolStarWrapper.load({url: document.getElementById('url_2').value, format: 'pdb'});
     }
 
-    BasicMolStarWrapper.plugin.state.data.expand;
-
-    function reload_canvas() {
-        var container = document.querySelector(".msp-viewport-host3D");
-        var content = container.innerHTML;
-        container.innerHTML = content;
-
-        //this line is to watch the result in console , you can remove it later
-        console.log("Refreshed");
+    if(document.getElementById('url_1')!=null||document.getElementById('url_2')!=null) {
+        load_comparison()
     }
+    //Catch url_list from client
+    var dataFromServer;
+    Shiny.addCustomMessageHandler("SendObjectToClientDynamicCallbackHandler",
+        function(variables) {
+            dataFromServer = variables;
+            //Temporary remove objects from viewer (not efficient)
+            BasicMolStarWrapper.removeObjects()
+            for(var i = 0; i < dataFromServer.length; i++){
+                BasicMolStarWrapper.load({url: dataFromServer[i], format: 'pdb'})
+            }
+        });
 
-    function resize_canvas() {
-        var container = document.querySelector(".msp-viewport-host3d");
-        container.style.width = "51vw";
-        container.style.width = "31vw";
-    }
-
-    //setTimeout(resize_canvas,4000)
-
-    load_comparison();
 
     //Control menu
     addControl('Load Asym Unit', () => BasicMolStarWrapper.load({url: url, format: format}));
@@ -133,14 +128,13 @@
     addHeader('Miscellaneous');
     addControl('Clear Viewer', () => BasicMolStarWrapper.removeObjects());
     addControl('Update comparison', () => load_comparison());
-    addControl('TEST', () => BasicMolStarWrapper.getAzureUrl('100D', 'pdb'));
 
     //Functions to make html elements
     function addControl(label, action) {
         var btn = document.createElement('button');
         btn.onclick = action;
         btn.innerText = label;
-        btn.className += "form-control";
+        btn.className += "form-control"
         doc('controls').appendChild(btn);
     }
 
@@ -152,7 +146,7 @@
     function addHeader(header) {
         var h = document.createElement('label');
         h.innerText = header;
-        h.className += "label_view";
+        h.className += "label_view"
         doc('controls').appendChild(h);
     }
 </script>
