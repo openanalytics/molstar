@@ -101,6 +101,7 @@
     if(document.getElementById('url_1')!=null||document.getElementById('url_2')!=null) {
         load_comparison()
     }
+
     //Catch url_list from client
     var dataFromServer;
     Shiny.addCustomMessageHandler("SendObjectToClientDynamicCallbackHandler",
@@ -108,9 +109,13 @@
             dataFromServer = variables;
             //Temporary remove objects from viewer (not efficient)
             BasicMolStarWrapper.removeObjects()
-            for(var i = 0; i < dataFromServer.length; i++){
-                BasicMolStarWrapper.load({url: dataFromServer[i], format: 'pdb'})
+            console.log(typeof dataFromServer)
+            if(typeof dataFromServer === 'string'){
+                BasicMolStarWrapper.load({url: dataFromServer, format: 'pdb'})
             }
+            else{for(var i = 0; i < dataFromServer.length; i++){
+                BasicMolStarWrapper.load({url: dataFromServer[i], format: 'pdb'})
+            }}
         });
 
 
