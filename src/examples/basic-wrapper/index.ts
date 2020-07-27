@@ -20,6 +20,8 @@ import './index.html';
 import {buildStaticSuperposition, dynamicSuperpositionTest, StaticSuperpositionTestData} from './superposition';
 import {PDBeStructureQualityReport} from '../../extensions/pdbe';
 import {Asset} from '../../mol-util/assets';
+import {DataFormatProvider} from '../../mol-plugin-state/formats/provider';
+import {getFileInfo} from "../../mol-util/file-info";
 
 require('mol-plugin-ui/skin/light.scss');
 
@@ -72,6 +74,26 @@ class BasicWrapper {
         });
     }
 
+    async loadEmdb(url: string, options?: { detail?: number }) {
+        // download emdb protein
+        const data = await this.plugin.builders.data.download({
+            url: Asset.Url(url)
+        });
+        let provider: DataFormatProvider | undefined;
+        let entryId: string | undefined = undefined;
+        // get provider with file-type etc
+        provider = this.plugin.dataFormats.auto(getFileInfo(Asset.getUrl(url)), data.cell?.obj!);
+        // provider = this.plugin.dataFormats.get('MAP')
+        console.log(provider)
+        if (!provider) {
+            this.plugin.log.warn('DownloadDensity: Format provider not found.');
+            return;
+        }
+        const volumes = await provider.parse(this.plugin, data, {entryId});
+        console.log(volumes)
+        await provider.visuals?.(this.plugin, volumes);
+    }
+
 
     async getAzureUrl(name: string, format: string) {
         const xApiKey = 'x-api-key XZdSXg9T8mTmXMjWyJmw9L5KnT88DhN7';
@@ -81,7 +103,7 @@ class BasicWrapper {
         xmlHttpRequest.open('GET', sendURL, true);
         xmlHttpRequest.setRequestHeader('Authorization', xApiKey);
         xmlHttpRequest.send(null);
-        console.log(xmlHttpRequest.responseText)
+        console.log(xmlHttpRequest.responseText);
         return xmlHttpRequest.responseText;
     }
 
@@ -105,7 +127,7 @@ class BasicWrapper {
     }
 
     async removeObjects() {
-        await this.plugin.clear()
+        await this.plugin.clear();
     }
 
     animate = {
