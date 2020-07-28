@@ -52,6 +52,28 @@ class BasicWrapper {
         this.plugin.customModelProperties.register(StripedResidues.propertyProvider, true);
     }
 
+    /**
+     * Load a protein in the viewer based on the url and format
+     * @param url string
+     * @param format string [pdb,map]
+     */
+    async load(url: string, format: string){
+        if(format === 'pdb'){
+            await this.loadPdb({url});
+        } else if (format === 'map'){
+            await this.loadEmdb(url, true);
+        } else {
+            console.log('unsupported format');
+        }
+    }
+
+    /**
+     * Load a pdb protein in the viewer
+     * @param url string
+     * @param format string [pdb] => can be extended with e.g. cif
+     * @param isBinary boolean if file is binary
+     * @param assemblyId string
+     */
     async loadPdb({url, format = 'pdb', isBinary = false, assemblyId = ''}: LoadParams) {
         // Download pdb protein
         const data = await this.plugin.builders.data.download({
@@ -74,6 +96,12 @@ class BasicWrapper {
         });
     }
 
+    /**
+     * Load emdb protein in the viewer
+     * @param url string
+     * @param isBinary boolean if file is binary
+     * @param options => detail int for level of detail
+     */
     async loadEmdb(url: string, isBinary: boolean, options?: { detail?: number }) {
         // Download protein base on parameters
         const data = await this.plugin.builders.data.download({
@@ -96,7 +124,11 @@ class BasicWrapper {
         await provider.visuals?.(this.plugin, volumes);
     }
 
-
+    /**
+     * Get download url from azure
+     * @param name string of protein name
+     * @param format string of format [pdb,map]
+     */
     async getAzureUrl(name: string, format: string) {
         const xApiKey = '';
         const frontUrl = '';
