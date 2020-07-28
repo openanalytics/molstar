@@ -53,14 +53,7 @@
     <script type="text/javascript" src="./index.js"></script>
 </head>
 <body>
-<div id='controls'>
-    <input type='text' id='url' placeholder='url'/>
-    <!--<input type='text' id='assemblyId' placeholder='assembly id' />-->
-    <select id='format'>
-        <option value='mmcif' selected>mmCIF</option>
-        <option value='pdb'>PDB</option>
-    </select>
-</div>
+<div id='controls'></div>
 <div id="app"></div>
 <script>
     //Function to easier html access
@@ -68,39 +61,9 @@
         return document.getElementById(id);
     }
 
-    //Temporary constants
-    var pdbId = '105D', assemblyId = '1';
-    var url = 'https://www.ebi.ac.uk/pdbe/static/entry/' + pdbId + '_updated.cif';
-    //var url = 'https://geministorageapp.blob.core.windows.net/pdb-storage/' + pdbId + '.pdb?sp=r&st=2020-07-13T08:50:46Z&se=2020-07-31T16:50:46Z&spr=https&sv=2019-10-10&sr=b&sig=s1J0qd95V09GBUqVCQdu2mNz5Z6vr/kWlRGE7TJO6TU='
-    var format = 'mmCIF';
-
-    //Temporary fillers
-    doc('url').value = url;
-    doc('url').onchange = function (e) {
-        url = e.target.value;
-    };
-    //$('url').value = pdbId;
-    //$('url').onchange = function (e) { pdbId = e.target.value; }
-    /*$('assemblyId').value = assemblyId;
-    $('assemblyId').onchange = function (e) { assemblyId = e.target.value; }*/
-    doc('format').value = format;
-    doc('format').onchange = function (e) {
-        format = e.target.value;
-    };
-
     //Initialization of viewer
     BasicMolStarWrapper.init('app' /** or document.getElementById('app') */);
     BasicMolStarWrapper.setBackground(0xffffff);
-
-    //Load element by url in viewer
-    function load_comparison(){
-        BasicMolStarWrapper.load({url: document.getElementById('url_1').value, format: 'pdb'});
-        BasicMolStarWrapper.load({url: document.getElementById('url_2').value, format: 'pdb'});
-    }
-
-    if(document.getElementById('url_1')!=null||document.getElementById('url_2')!=null) {
-        load_comparison()
-    }
 
     //Catch url_list from client
     var dataFromServer;
@@ -111,28 +74,15 @@
             BasicMolStarWrapper.removeObjects()
             console.log(typeof dataFromServer)
             if(typeof dataFromServer === 'string'){
-                BasicMolStarWrapper.load({url: dataFromServer, format: 'pdb'})
+                BasicMolStarWrapper.loadPdb({url: dataFromServer, format: 'pdb'})
             }
             else{for(var i = 0; i < dataFromServer.length; i++){
-                BasicMolStarWrapper.load({url: dataFromServer[i], format: 'pdb'})
+                BasicMolStarWrapper.loadPdb({url: dataFromServer[i], format: 'pdb'})
             }}
         });
 
-
-    //Control menu
-    addControl('Load Asym Unit', () => BasicMolStarWrapper.load({url: url, format: format}));
-    addControl('Load Assembly', () => BasicMolStarWrapper.load({url: url, format: format, assemblyId: assemblyId}));
-
-    addSeparator();
-
     addHeader('Camera');
     addControl('Toggle Spin', () => BasicMolStarWrapper.toggleSpin());
-
-    addSeparator();
-
-    addHeader('Miscellaneous');
-    addControl('Clear Viewer', () => BasicMolStarWrapper.removeObjects());
-    addControl('Update comparison', () => load_comparison());
 
     //Functions to make html elements
     function addControl(label, action) {

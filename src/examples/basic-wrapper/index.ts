@@ -21,7 +21,7 @@ import {buildStaticSuperposition, dynamicSuperpositionTest, StaticSuperpositionT
 import {PDBeStructureQualityReport} from '../../extensions/pdbe';
 import {Asset} from '../../mol-util/assets';
 import {DataFormatProvider} from '../../mol-plugin-state/formats/provider';
-import {getFileInfo} from "../../mol-util/file-info";
+import {getFileInfo} from '../../mol-util/file-info';
 
 require('mol-plugin-ui/skin/light.scss');
 
@@ -52,15 +52,15 @@ class BasicWrapper {
         this.plugin.customModelProperties.register(StripedResidues.propertyProvider, true);
     }
 
-    async load({url, format = 'mmcif', isBinary = false, assemblyId = ''}: LoadParams) {
-        // await this.plugin.clear();
-
+    async loadPdb({url, format = 'pdb', isBinary = false, assemblyId = ''}: LoadParams) {
+        // Download pdb protein
         const data = await this.plugin.builders.data.download({
             url: Asset.Url(url),
             isBinary
         }, {state: {isGhost: true}});
+        // Parse protein
         const trajectory = await this.plugin.builders.structure.parseTrajectory(data, format);
-
+        // Add to viewer/structure
         await this.plugin.builders.structure.hierarchy.applyPreset(trajectory, 'default', {
             structure: assemblyId ? {
                 name: 'assembly',
@@ -74,30 +74,32 @@ class BasicWrapper {
         });
     }
 
-    async loadEmdb(url: string, options?: { detail?: number }) {
-        // download emdb protein
+    async loadEmdb(url: string, isBinary: boolean, options?: { detail?: number }) {
+        // Download protein base on parameters
         const data = await this.plugin.builders.data.download({
-            url: Asset.Url(url)
+            url: Asset.Url(url),
+            isBinary
         });
+        // Set variables to prevent null-exception
         let provider: DataFormatProvider | undefined;
         let entryId: string | undefined = undefined;
+
         // get provider with file-type etc
         provider = this.plugin.dataFormats.auto(getFileInfo(Asset.getUrl(url)), data.cell?.obj!);
-        // provider = this.plugin.dataFormats.get('MAP')
-        console.log(provider)
         if (!provider) {
             this.plugin.log.warn('DownloadDensity: Format provider not found.');
             return;
         }
+        // Parse EMDB protein
         const volumes = await provider.parse(this.plugin, data, {entryId});
-        console.log(volumes)
+        // Visualize
         await provider.visuals?.(this.plugin, volumes);
     }
 
 
     async getAzureUrl(name: string, format: string) {
-        const xApiKey = 'x-api-key XZdSXg9T8mTmXMjWyJmw9L5KnT88DhN7';
-        const frontUrl = 'http://13.69.254.145:5000/api/v1/mock/get-protein_url';
+        const xApiKey = '';
+        const frontUrl = '';
         const sendURL = frontUrl + '?protein_type=' + format + '&protein_name=' + name + '.' + format;
         let xmlHttpRequest = new XMLHttpRequest();
         xmlHttpRequest.open('GET', sendURL, true);
