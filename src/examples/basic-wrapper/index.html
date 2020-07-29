@@ -13,7 +13,8 @@
 
         #app {
             position: absolute;
-            left: 180px;
+            top: 240px;
+            left: 362px;
             width: 50vw;
             height: 30vw;
             border: 1px solid #ccc;
@@ -22,8 +23,8 @@
         #controls {
             position: absolute;
             width: 150px;
-            top: 10px;
-            left: 0px;
+            top: 250px;
+            left: 192px;
         }
 
         #controls > button {
@@ -56,7 +57,9 @@
 <div id='controls'></div>
 <div id="app"></div>
 <script>
-    //Function to easier html access
+    /**
+     * function to make accessing of html elements faster
+     */
     function doc(id) {
         return document.getElementById(id);
     }
@@ -65,41 +68,58 @@
     BasicMolStarWrapper.init('app' /** or document.getElementById('app') */);
     BasicMolStarWrapper.setBackground(0xffffff);
 
-    //Catch url_list from client
-    var dataFromServer;
+    //Catch url_list and format_list from server.R messageHandler
+    var url_list;
+    var format_list;
     Shiny.addCustomMessageHandler("SendObjectToClientDynamicCallbackHandler",
         function(variables) {
-            dataFromServer = variables;
+            //Get url_list and format_list from message
+            url_list = variables.url_list;
+            format_list = variables.format_list;
             //Temporary remove objects from viewer (not efficient)
             BasicMolStarWrapper.removeObjects()
-            console.log(typeof dataFromServer)
-            if(typeof dataFromServer === 'string'){
-                BasicMolStarWrapper.loadPdb({url: dataFromServer, format: 'pdb'})
+            console.log(typeof url_list)
+            //If it is one url -> load this one
+            if (typeof url_list === 'string'){
+                BasicMolStarWrapper.load(url_list, format_list)
             }
-            else{for(var i = 0; i < dataFromServer.length; i++){
-                BasicMolStarWrapper.loadPdb({url: dataFromServer[i], format: 'pdb'})
+            //If it is a list of url's -> load all
+            else{for(let i = 0; i < url_list.length; i++){
+                BasicMolStarWrapper.load(url_list[i], format_list[i])
             }}
         });
 
+    //Add controls
     addHeader('Camera');
     addControl('Toggle Spin', () => BasicMolStarWrapper.toggleSpin());
 
-    //Functions to make html elements
+    /**
+     * Add html button control
+     * @param label string name for control
+     * @param action function to add on onClick event
+     */
     function addControl(label, action) {
-        var btn = document.createElement('button');
+        let btn = document.createElement('button');
         btn.onclick = action;
         btn.innerText = label;
         btn.className += "form-control"
         doc('controls').appendChild(btn);
     }
 
+    /**
+     * Add html separator control
+     */
     function addSeparator() {
-        var hr = document.createElement('hr');
+        let hr = document.createElement('hr');
         doc('controls').appendChild(hr);
     }
 
+    /**
+     * Add html header control
+     * @param header string of header
+     */
     function addHeader(header) {
-        var h = document.createElement('label');
+        let h = document.createElement('label');
         h.innerText = header;
         h.className += "label_view"
         doc('controls').appendChild(h);

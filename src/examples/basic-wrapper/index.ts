@@ -30,6 +30,10 @@ type LoadParams = { url: string, format?: BuiltInTrajectoryFormat, isBinary?: bo
 class BasicWrapper {
     plugin: PluginContext;
 
+    /**
+     * Viewer contructor
+     * @param target string (in our case 'app'
+     */
     init(target: string | HTMLElement) {
         this.plugin = createPlugin(typeof target === 'string' ? document.getElementById(target)! : target, {
             ...DefaultPluginSpec,
@@ -141,6 +145,10 @@ class BasicWrapper {
         return xmlHttpRequest.responseText;
     }
 
+    /**
+     * Set background color of viewer
+     * @param color int to represent color
+     */
     setBackground(color: number) {
         PluginCommands.Canvas3D.SetSettings(this.plugin, {
             settings: props => {
@@ -149,6 +157,9 @@ class BasicWrapper {
         });
     }
 
+    /**
+     * Function to start and stop spinning of proteins
+     */
     toggleSpin() {
         if (!this.plugin.canvas3d) return;
 
@@ -160,9 +171,14 @@ class BasicWrapper {
         if (!this.plugin.canvas3d.props.trackball.spin) PluginCommands.Camera.Reset(this.plugin, {});
     }
 
+    /**
+     * Remove all proteins from viewer
+     */
     async removeObjects() {
         await this.plugin.clear();
     }
+
+
 
     animate = {
         modelIndex: {
